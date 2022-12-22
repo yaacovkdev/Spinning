@@ -20,6 +20,8 @@ function setup(){
     smooth();
     
     frameRate(60);
+
+  
 }
 
 function draw(){
