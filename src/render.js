@@ -5,7 +5,6 @@ const CANVSIZEX = 1200, CANVSIZEY = 675;
 document.getElementById("b").style.background = "rgb(0,0,0)";
 
 function setup(){
-    
     var C = createCanvas(CANVSIZEX,CANVSIZEY);
     changePlayerSpeed(Player.speed);
     Player.x = CANVSIZEX/2;
@@ -18,24 +17,25 @@ function setup(){
     stroke(colors[0]);
     strokeWeight(Player.raywidth);
     smooth();
-    
     frameRate(60);
-
-  
+    
+    initEvents();
+    initEventLoop();
+    beginLoop();
 }
 
 function draw(){
     background(bcolor[0], bcolor[1], bcolor[2]);
     keyboard();
-    border();
+    //border();
     playerShooting();
     renderPlayer();
     renderRays();
     renderEnemies();
     checkCollisions();
     updateMovements();
-    spawnEnemies();
-    checkOver();
+    //spawnEnemies();
+    //checkOver();
 }
 
 
@@ -47,6 +47,7 @@ function windowResized() {
 
 function renderPlayer(){
     
+    //just render the shape with internal tools
     if(Player.shape == 0){
         rect(Player.x-Player.width/2, Player.y-Player.height/2, Player.width, Player.height);
     } else if(Player.shape == 1){

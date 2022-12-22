@@ -5,7 +5,7 @@ let score = 0;
 let gameOver = false;
 
 function spawnEnemies(){
-    if(counter >= 60){
+    if(counter >= 10){
         counter = 0;
         createEnemy();
     }
@@ -13,7 +13,7 @@ function spawnEnemies(){
     counter++;
 }
 
-function createEnemy(){
+let createEnemy = function(){
     
     var px = CANVSIZEX+(2 * SIZEW);
     var py = CANVSIZEY+(2 * SIZEH);
@@ -45,7 +45,6 @@ function checkCollisions(){
         if(interceptCircRect(enemies[i], Player)){ 
             gameOver = true;
         }
-        
     }
     
     
@@ -84,6 +83,7 @@ function checkCollisions(){
                     //i--;
                     enemies.splice(j,1);
                     //j--;
+                    score++;
                 }
             }  else if(enemies[j].shape ==1){
 
@@ -110,6 +110,7 @@ function checkCollisions(){
                 
                 enemies.splice(i,1);
                 enemies.splice(j,1);
+                score++;
             }
         }
         
@@ -162,6 +163,7 @@ function resetGame(){
     rays = [];
     Player.x = width/2;
     Player.y = height/2;
+    score = 0;
 }
 
 function mousePressed(){
