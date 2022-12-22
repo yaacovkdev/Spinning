@@ -20,22 +20,19 @@ function setup(){
     frameRate(60);
     
     initEvents();
-    initEventLoop();
     beginLoop();
 }
 
 function draw(){
     background(bcolor[0], bcolor[1], bcolor[2]);
     keyboard();
-    //border();
     playerShooting();
     renderPlayer();
     renderRays();
     renderEnemies();
     checkCollisions();
     updateMovements();
-    //spawnEnemies();
-    //checkOver();
+    checkOver();
 }
 
 

@@ -11,17 +11,25 @@ class GameEvent {
         this.interval = interval;
         this.counter = 0;
     }
-    eventfunction(){}
+    //eventfunction(){}
 }
 
 function initEvents(){
-    GameEvent.prototype.eventfunction = createEnemy;
-    spawnEnemiesEvent = new GameEvent("SpawnEnemies", 0, 10);   
+    GameEvent.prototype.eventfunction = function(...l){};
+
+    spawnEnemiesEvent = new GameEvent("SpawnEnemies", 20, 10);
+    spawnEnemiesEvent.eventfunction = createEnemy;
+
+    incrementEnemiesTime = new GameEvent("IncrementEnemiesSpawn", 0, 60);
+    incrementEnemiesTime.eventfunction = incrementSpawnEnemy;
+
+    Events.push(spawnEnemiesEvent);
+    Events.push(incrementEnemiesTime);
 }
 
 function progressEvents(){
-    //delay
     for(var i in Events){
+        //delay
         if(Events[i].delay > 0){
             Events[i].delay--;
             continue;

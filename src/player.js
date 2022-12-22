@@ -10,10 +10,10 @@ let Player = {
     speed: 5,
     diagspeed: 0,
     reload: 0,
-    reloadtime: 20,
+    reloadtime: 1,
     fired: false,
     shootangle: 0,
-    rayspeed: 5,
+    rayspeed: 0,
     raylenth: 20,
     raywidth: 3,
     raycolor: 0

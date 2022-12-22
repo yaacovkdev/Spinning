@@ -4,17 +4,7 @@ let counter = 0;
 let score = 0;
 let gameOver = false;
 
-function spawnEnemies(){
-    if(counter >= 10){
-        counter = 0;
-        createEnemy();
-    }
-    
-    counter++;
-}
-
 let createEnemy = function(){
-    
     var px = CANVSIZEX+(2 * SIZEW);
     var py = CANVSIZEY+(2 * SIZEH);
     var pos = randomRectPerimiterPos(px,py);
@@ -38,6 +28,11 @@ let createEnemy = function(){
 
     };
     enemies.push(enemy);
+}
+
+let incrementSpawnEnemy = function(){
+    if(spawnEnemiesEvent.interval == 1) return;
+    spawnEnemiesEvent.interval--;
 }
 
 function checkCollisions(){
