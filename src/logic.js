@@ -25,7 +25,6 @@ let createEnemy = function(){
         angle: angle, 
         x:pos[0],
         y:pos[1],
-
     };
     enemies.push(enemy);
 }
@@ -177,7 +176,7 @@ function mousePressed(){
         gameOver = false;
         resetGame();
         initEvents();
-        beginLoop();
+        beginEventLoop();
         loop();
     }
 }

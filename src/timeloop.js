@@ -1,7 +1,7 @@
 let mainInterval;
 const tickrate = 20;
 
-function beginLoop(){
+function beginEventLoop(){
     console.log('we begin');
     if(!mainInterval) mainInterval = setInterval(function(){
         progressEvents();
@@ -10,6 +10,6 @@ function beginLoop(){
 
 function endLoop(){
     console.log('we ended');
-    clearInterval(mainInterval);
+    //clearInterval(mainInterval);
     Events = [];
 }
