@@ -19,7 +19,7 @@ let createEnemy = function(){
     var enemy = {
         width: SIZEW,
         height: SIZEH,
-        speed: int(random(1,5)),
+        speed: int(random(1,6)),
         shape: 1,
         color: colors[1],
         angle: angle, 
@@ -29,9 +29,11 @@ let createEnemy = function(){
     enemies.push(enemy);
 }
 
-let incrementSpawnEnemy = function(){
-    if(spawnEnemiesEvent.interval == 1) return;
-    spawnEnemiesEvent.interval--;
+let incrementSpawnEnemy = function(event, n){
+    console.log('hi');
+    if(event.interval <= 1) return;
+    event.interval += n;
+    console.log(spawnEnemiesEvent.interval);
 }
 
 function checkCollisions(){
