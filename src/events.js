@@ -18,7 +18,7 @@ class GameEvent {
 function initEvents(){
     //GameEvent.prototype.eventfunction = function(){};
 
-    spawnEnemiesEvent = new GameEvent("SpawnEnemies", 20, 10);
+    spawnEnemiesEvent = new GameEvent("SpawnEnemies", 20, 30);
     spawnEnemiesEvent.eventfunction = createEnemy;
 
     incrementEnemiesTime = new GameEvent("IncrementEnemiesSpawn", 0, 60);

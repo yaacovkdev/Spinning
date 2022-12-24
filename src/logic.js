@@ -29,14 +29,7 @@ let createEnemy = function(){
     enemies.push(enemy);
 }
 
-function take(){
-    console.log(10+ 20);
-    //console.log(20);
-}
-
 let incrementSpawnEnemy = function(){
-    var param = [];
-    take(...param);
     if(spawnEnemiesEvent.interval == 1) return;
     spawnEnemiesEvent.interval--;
 }
@@ -60,7 +53,6 @@ function checkCollisions(){
 
             if(interceptLineRect(l1,l2,s1,s2)){
                 rays.splice(i,1);
-                //i--;
             }
         } else if(Player.shape == 1){
             s1 = {x:Player.x, y:Player.y};
@@ -68,7 +60,6 @@ function checkCollisions(){
 
             if(interceptLineCirc(l1,l2,s1,s2)){
                 rays.splice(i,1);
-                //i--;
             }
         }
 
@@ -81,9 +72,7 @@ function checkCollisions(){
 
                 if(interceptLineRect(l1,l2,s1,s2)){
                     rays.splice(i,1);
-                    //i--;
                     enemies.splice(j,1);
-                    //j--;
                     score++;
                 }
             }  else if(enemies[j].shape ==1){

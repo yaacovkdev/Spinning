@@ -36,6 +36,10 @@ function playerShooting(){
 
     //adds an information about a ray inside the array when the player shot
     if(Player.reload == 1){
+        if(Player.safety){
+            Player.safety = false;
+            return;
+        }
         var cosrat = Math.cos(Player.shootangle);
         var sinrat = Math.sin(Player.shootangle);
         rays.push(
@@ -53,13 +57,11 @@ function playerShooting(){
 
 //function that listens to keyboards
 function keyboard(){
-    if(mouseIsPressed && !Player.safety){
+    if(mouseIsPressed){
         if(!Player.fired){
             Player.shootangle = direction(Player.x,Player.y,mouseX, mouseY);
         }
         Player.fired = true;
-    } else if(!mouseIsPressed && Player.safety){
-        Player.safety = false;
     }
     var controls = [false, false, false, false];
     var xadd = 0, yadd = 0, diagonal = false;
