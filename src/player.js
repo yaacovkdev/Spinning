@@ -10,16 +10,17 @@ let Player = {
     speed: 5,
     diagspeed: 0,
     reload: 0,
-    reloadtime: 1,
+    reloadtime: 20,
     fired: false,
+    safety: false, //gun safety to prevent instant shooting at the start of the reset
     shootangle: 0,
-    rayspeed: 0,
+    rayspeed: 5,
     raylenth: 20,
     raywidth: 3,
     raycolor: 0
 };
 
-function changePlayerSpeed(s){
+function setPlayerSpeed(s){
     Player.speed = s,
     Player.diagspeed = diagonalSpeed(s);
 }
@@ -33,7 +34,7 @@ function playerShooting(){
         Player.reload++;
     }
 
-    //adds an information about a ray inside the array when the player clearly shot
+    //adds an information about a ray inside the array when the player shot
     if(Player.reload == 1){
         var cosrat = Math.cos(Player.shootangle);
         var sinrat = Math.sin(Player.shootangle);
@@ -52,17 +53,14 @@ function playerShooting(){
 
 //function that listens to keyboards
 function keyboard(){
-    if(mouseIsPressed){
-        
-
+    if(mouseIsPressed && !Player.safety){
         if(!Player.fired){
             Player.shootangle = direction(Player.x,Player.y,mouseX, mouseY);
-            
         }
         Player.fired = true;
-
+    } else if(!mouseIsPressed && Player.safety){
+        Player.safety = false;
     }
-
     var controls = [false, false, false, false];
     var xadd = 0, yadd = 0, diagonal = false;
     //w
@@ -108,5 +106,4 @@ function keyboard(){
 
     Player.x += xadd;
     Player.y += yadd;
-
 }

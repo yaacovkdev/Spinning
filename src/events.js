@@ -3,7 +3,7 @@ let spawnEnemiesEvent;
 let Events = [];
 
 class GameEvent {
-
+    eventfunction = function(){}
     //interpreted in ticks
     constructor(name, delay, interval){
         this.name = name;
@@ -11,11 +11,12 @@ class GameEvent {
         this.interval = interval;
         this.counter = 0;
     }
+
     //eventfunction(){}
 }
 
 function initEvents(){
-    GameEvent.prototype.eventfunction = function(...l){};
+    //GameEvent.prototype.eventfunction = function(){};
 
     spawnEnemiesEvent = new GameEvent("SpawnEnemies", 20, 10);
     spawnEnemiesEvent.eventfunction = createEnemy;

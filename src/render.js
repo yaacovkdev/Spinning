@@ -6,7 +6,7 @@ document.getElementById("b").style.background = "rgb(0,0,0)";
 
 function setup(){
     var C = createCanvas(CANVSIZEX,CANVSIZEY);
-    changePlayerSpeed(Player.speed);
+    setPlayerSpeed(Player.speed);
     Player.x = CANVSIZEX/2;
     Player.y = CANVSIZEY/2;
     C.parent("canvasdiv");
@@ -32,6 +32,7 @@ function draw(){
     renderEnemies();
     checkCollisions();
     updateMovements();
+    border();
     checkOver();
 }
 
@@ -86,6 +87,7 @@ function checkOver(){
         text('Game Over', width/2, height/2 -100);
         text('Score: '+score, width/2, height/2 +100);
         pop();
+        endLoop();
         noLoop();
     }
 }

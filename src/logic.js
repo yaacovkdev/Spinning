@@ -30,7 +30,14 @@ let createEnemy = function(){
     enemies.push(enemy);
 }
 
+function take(){
+    console.log(10+ 20);
+    //console.log(20);
+}
+
 let incrementSpawnEnemy = function(){
+    var param = [];
+    take(...param);
     if(spawnEnemiesEvent.interval == 1) return;
     spawnEnemiesEvent.interval--;
 }
@@ -156,8 +163,12 @@ function isOutOfBound(renderobject, roomdist){
 function resetGame(){
     enemies = [];
     rays = [];
+
     Player.x = width/2;
     Player.y = height/2;
+    Player.reload = 0;
+    Player.safety = true;
+
     score = 0;
 }
 
@@ -165,6 +176,8 @@ function mousePressed(){
     if(gameOver){
         gameOver = false;
         resetGame();
+        initEvents();
+        beginLoop();
         loop();
     }
 }
