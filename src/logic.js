@@ -15,72 +15,76 @@ let createEnemy = function(){
     target[1] -= SIZEH;
     var angle = direction(pos[0], pos[1], target[0]+px/3, target[1]+py/3);
     
+    var basicEnemy = {
+        specs: {
+            width: SIZEW,
+            height: SIZEH,
+            shape: 1,
+            color: colors[1],
+        },
 
-    var enemy = {
-        width: SIZEW,
-        height: SIZEH,
-        speed: int(random(1,6)),
-        shape: 1,
-        color: colors[1],
-        angle: angle, 
-        x:pos[0],
-        y:pos[1],
+        move: {
+            angle: angle, 
+            speed: int(random(1,6)),
+            x:pos[0],
+            y:pos[1],
+        },
     };
-    enemies.push(enemy);
+    enemies.push(basicEnemy);
 }
 
-let incrementSpawnEnemy = function(event, n){
-    console.log('hi');
+let incrementEventTime = function(event, n){
     if(event.interval <= 1) return;
     event.interval += n;
-    console.log(spawnEnemiesEvent.interval);
 }
 
 function checkCollisions(){
+    var s1, s2;
     for(var i = 0; i < enemies.length; i++){
-        if(interceptCircRect(enemies[i], Player)){ 
+        s1 = {x:enemies[i].move.x, y:enemies[i].move.y};
+        s2 = {x: Player.move.x, y: Player.move.y};
+
+        if(interceptCircRect(s1, enemies[i].specs.width, s2, Player.specs.width, Player.specs.height)){ 
             gameOver = true;
         }
     }
     
-    
     for(var i = 0; i < rays.length; i++){
-        var l1 = {x:rays[i].x, y:rays[i].y};
-        var l2 = {x:rays[i].x2, y:rays[i].y2};
-        var s1,s2;
-        if(Player.shape == 0){
+        var l1 = {x:rays[i].move.x, y:rays[i].move.y};
+        var l2 = {x:rays[i].move.x2, y:rays[i].move.y2};
+        if(Player.specs.shape == 0){
             //player thing
-            s1 = {x:Player.x - Player.width/2, y:Player.y - Player.height / 2};
-            s2 = {x:s1.x+Player.width, y:s1.y+Player.height};
+            s1 = {x:Player.move.x - Player.specs.width/2, y:Player.move.y - Player.specs.height / 2};
+            s2 = {x:s1.x+Player.specs.width, y:s1.y+Player.specs.height};
 
             if(interceptLineRect(l1,l2,s1,s2)){
                 rays.splice(i,1);
             }
-        } else if(Player.shape == 1){
-            s1 = {x:Player.x, y:Player.y};
-            s2 = Player.width/2;
+        } else if(Player.specs.shape == 1){
+            s1 = {x:Player.move.x, y:Player.move.y};
+            s2 = Player.specs.width/2;
 
             if(interceptLineCirc(l1,l2,s1,s2)){
                 rays.splice(i,1);
             }
         }
-
+        
         //Collisions of rays with enemies
         for(var j = 0; j < enemies.length; j++){
-            if(isOutOfBound(enemies[j],enemies[j].width)) continue;
-            if(enemies[j].shape==0){
-                s1 = {x:enemies[j].x-enemies[j].width/2, y:enemies[j].y-enemies[j].height/2};
-                s2 = {x:s1.x+enemies[j].width, y:s1.y+enemies[j].height};
+            if(isOutOfBound(enemies[j].move.x, enemies[j].move.y,enemies[j].specs.width, CANVSIZEX, CANVSIZEY)) continue;
+            if(enemies[j].specs.shape==0){
+                s1 = {x:enemies[j].move.x-enemies[j].specs.width/2, y:enemies[j].move.y-enemies[j].specs.specs.height/2};
+                s2 = {x:s1.x+enemies[j].specs.width, y:s1.y+enemies[j].specs.height};
 
                 if(interceptLineRect(l1,l2,s1,s2)){
                     rays.splice(i,1);
                     enemies.splice(j,1);
                     score++;
                 }
-            }  else if(enemies[j].shape ==1){
+            }  else if(enemies[j].specs.shape ==1){
 
-                s1 = {x:enemies[j].x, y:enemies[j].y};
-                s2 = enemies[j].width/2;
+                s1 = {x:enemies[j].move.x, y:enemies[j].move.y};
+                s2 = enemies[j].specs.width/2;
 
                 if(interceptLineCirc(l1,l2,s1,s2)){
                     rays.splice(i,1);
@@ -88,15 +92,16 @@ function checkCollisions(){
                     score++;
                 }       
             }
-
         }
     }
-
+        
     for(var i = 0; i < enemies.length; i++){
         for(var j = 0; j < enemies.length; j++){
             if(i == j) continue;
-            if(interceptCircs(enemies[i], enemies[j])){
-                
+
+            s1 = {x:enemies[i].move.x, y:enemies[i].move.y};
+            s2 = {x:enemies[j].move.x, y:enemies[j].move.y};
+            if(interceptCircs(s1, enemies[i].specs.width, s2, enemies[j].specs.width)){
                 //in order to splice at the right element in the enemies array second time
                 if(i<j) j--;
                 
@@ -105,59 +110,51 @@ function checkCollisions(){
                 score++;
             }
         }
-        
     }
-    
 }
 
 //checks for borders in order to not go over the canvas
 function border(){
-    if(Player.x >= CANVSIZEX - 15) Player.x = CANVSIZEX - 15;
-    if(Player.x <= 15) Player.x = 15;
-    if(Player.y >= CANVSIZEY - 15) Player.y = CANVSIZEY - 15;
-    if(Player.y <= 15) Player.y = 15;
+    if(Player.move.x >= CANVSIZEX - 15) Player.move.x = CANVSIZEX - 15;
+    if(Player.move.x <= 15) Player.x = 15;
+    if(Player.move.y >= CANVSIZEY - 15) Player.move.y = CANVSIZEY - 15;
+    if(Player.move.y <= 15) Player.move.y = 15;
 }
 
 function updateMovements(){
     for(var i = 0; i < rays.length; i++){
         //add the next speed
-        var xincrease = Player.rayspeed * Math.cos(rays[i].angle);
-        var yincrease = Player.rayspeed * Math.sin(rays[i].angle);
+        var xincrease = Player.ammo.rayspeed * Math.cos(rays[i].move.angle);
+        var yincrease = Player.ammo.rayspeed * Math.sin(rays[i].move.angle);
 
-        rays[i].x += xincrease;
-        rays[i].y += yincrease;
-        rays[i].x2 += xincrease;
-        rays[i].y2 += yincrease;
+        rays[i].move.x += xincrease;
+        rays[i].move.y += yincrease;
+        rays[i].move.x2 += xincrease;
+        rays[i].move.y2 += yincrease;
         
-        if(isOutOfBound(rays[i], 50)) {rays.splice(i,1);}
+        if(isOutOfBound(rays[i].move.x, rays[i].move.y, 50, CANVSIZEX, CANVSIZEY)) {rays.splice(i,1);}
         
     }
-    
    
-    
     for(var i = 0; i < enemies.length; i++){
-        var ddir = direction(enemies[i].x,enemies[i].y,Player.x, Player.y);
+        //enemies always tend to look at the player
+        var ddir = direction(enemies[i].move.x,enemies[i].move.y,Player.move.x, Player.move.y);
         //ddir = closestAngle(enemies[i].angle, ddir, Math.PI/10);
-        enemies[i].x += enemies[i].speed*Math.cos(ddir);
-        enemies[i].y += enemies[i].speed*Math.sin(ddir);
+        enemies[i].move.x += enemies[i].move.speed*Math.cos(ddir);
+        enemies[i].move.y += enemies[i].move.speed*Math.sin(ddir);
 
-        if(isOutOfBound(enemies[i], 50)) {enemies.splice(i,1); i--;}
+        //if enemy is out of bounds they dissapear
+        if(isOutOfBound(enemies[i].move.x, enemies[i].move.y, 50, CANVSIZEX, CANVSIZEY)) {enemies.splice(i,1); i--;}
     }
-}
-
-function isOutOfBound(renderobject, roomdist){
-    if(renderobject.x >= (width+roomdist) || renderobject.x <= (-roomdist) || renderobject.y >= (height+roomdist) || renderobject.y <= (-roomdist)) return true;
-    return false;
 }
 
 function resetGame(){
     enemies = [];
     rays = [];
 
-    Player.x = width/2;
-    Player.y = height/2;
-    Player.reload = 0;
-    Player.safety = true;
+    Player.move.x = width/2;
+    Player.move.y = height/2;
+    Player.gun.safety = true;
 
     score = 0;
 }

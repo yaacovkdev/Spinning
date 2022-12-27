@@ -1,56 +1,74 @@
 const SIZEW = 30, SIZEH = 30;
 
 let Player = {
-    width: SIZEW,
-    height: SIZEH,
-    shape: 0,
-    color: 0,
-    x: 0,
-    y: 0,
-    speed: 5,
-    diagspeed: 0,
-    reload: 0,
-    reloadtime: 20,
-    fired: false,
-    safety: false, //gun safety to prevent instant shooting at the start of the reset
-    shootangle: 0,
-    rayspeed: 5,
-    raylenth: 20,
-    raywidth: 3,
-    raycolor: 0
+    specs: {
+        width: SIZEW,
+        height: SIZEH,
+        shape: 0,
+        color: 0,
+    },
+    
+    move: {
+        x: 0,
+        y: 0,
+        speed: 5,
+        diagspeed: 0,
+    },
+
+    gun: {
+        reload: 0,
+        reloadtime: 20,
+        fired: false,
+        safety: false, //gun safety to prevent instant shooting at the start of the reset
+        shootangle: 0,
+    },
+    
+    ammo: {
+        rayspeed: 5,
+        raylenth: 20,
+        raywidth: 3,
+        raycolor: 0
+    },
 };
 
 function setPlayerSpeed(s){
-    Player.speed = s,
-    Player.diagspeed = diagonalSpeed(s);
+    Player.move.speed = s,
+    Player.move.diagspeed = diagonalSpeed(s);
 }
 
 function playerShooting(){
-    if(Player.reload >= Player.reloadtime){
-        Player.fired = false;
-        Player.reload = 0;
+    if(Player.gun.reload >= Player.gun.reloadtime){
+        Player.gun.fired = false;
+        Player.gun.reload = 0;
         
-    } else if(Player.fired){
-        Player.reload++;
+    } else if(Player.gun.fired){
+        Player.gun.reload++;
     }
 
     //adds an information about a ray inside the array when the player shot
-    if(Player.reload == 1){
-        if(Player.safety){
-            Player.safety = false;
+    if(Player.gun.reload == 1){
+        if(Player.gun.safety){
+            Player.gun.safety = false;
             return;
         }
-        var cosrat = Math.cos(Player.shootangle);
-        var sinrat = Math.sin(Player.shootangle);
+        var cosrat = Math.cos(Player.gun.shootangle);
+        var sinrat = Math.sin(Player.gun.shootangle);
         rays.push(
-            {angle:Player.shootangle,
-            length: Player.raylenth,
-            width: Player.raywidth,
-            color: Player.raycolor,
-            x:Player.x + SIZEW * cosrat,
-            y:Player.y + SIZEH * sinrat,
-            x2:Player.x + cosrat * (SIZEW + Player.raylenth),
-            y2:Player.y + sinrat * (SIZEH + Player.raylenth)}
+            {
+                specs:{
+                    length: Player.ammo.raylenth,
+                    width: Player.ammo.raywidth,
+                    color: Player.ammo.raycolor,
+                },
+
+                move:{
+                    angle:Player.gun.shootangle, 
+                    x:Player.move.x + SIZEW * cosrat,
+                    y:Player.move.y + SIZEH * sinrat,
+                    x2:Player.move.x + cosrat * (SIZEW + Player.ammo.raylenth),
+                    y2:Player.move.y + sinrat * (SIZEH + Player.ammo.raylenth)
+                },
+            }
         );
     }
 }
@@ -58,10 +76,10 @@ function playerShooting(){
 //function that listens to keyboards
 function keyboard(){
     if(mouseIsPressed){
-        if(!Player.fired){
-            Player.shootangle = direction(Player.x,Player.y,mouseX, mouseY);
+        if(!Player.gun.fired){
+            Player.gun.shootangle = direction(Player.move.x,Player.move.y,mouseX, mouseY);
         }
-        Player.fired = true;
+        Player.gun.fired = true;
     }
     var controls = [false, false, false, false];
     var xadd = 0, yadd = 0, diagonal = false;
@@ -99,13 +117,13 @@ function keyboard(){
     if(controls[3]) xadd = 1;
     
     if(diagonal){
-        xadd *= Player.diagspeed
-        yadd *= Player.diagspeed
+        xadd *= Player.move.diagspeed
+        yadd *= Player.move.diagspeed
     } else {
-        xadd *= Player.speed;
-        yadd *= Player.speed;
+        xadd *= Player.move.speed;
+        yadd *= Player.move.speed;
     }
 
-    Player.x += xadd;
-    Player.y += yadd;
+    Player.move.x += xadd;
+    Player.move.y += yadd;
 }

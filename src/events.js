@@ -1,5 +1,6 @@
 //Will probably be changed to a json file
-let spawnEnemiesEvent, incrementEnemiesTime;
+let spawnEnemiesEvent;
+let incrementEnemiesTime;
 
 let Events = [];
 
@@ -19,7 +20,7 @@ class TimeEvent {
 
 function initEvents(){
     spawnEnemiesEvent = new TimeEvent("SpawnEnemies", 20, 30, createEnemy, []);
-    incrementEnemiesTime = new TimeEvent("IncrementEnemiesSpawn", 0, 60, incrementSpawnEnemy, [spawnEnemiesEvent, -1]);
+    incrementEnemiesTime = new TimeEvent("IncrementEnemiesSpawn", 0, 60, incrementEventTime, [spawnEnemiesEvent, -1]);
 
     Events.push(spawnEnemiesEvent);
     Events.push(incrementEnemiesTime);

@@ -38,20 +38,20 @@ function quadraticSolv(a,b,c){
     return [x1,x2];
 }
 
-function interceptCircs(circ1, circ2){
-    var rad1 = circ1.width/2;
-    var rad2 = circ2.width/2;
+function interceptCircs(circ1, circ1dia, circ2, circ2dia){
+    var rad1 = circ1dia/2;
+    var rad2 = circ2dia/2;
     if(dist(circ1.x, circ1.y, circ2.x, circ2.y) <= (rad1 + rad2)) return true;
     return false;
 }
 
 //copied from https://www.geeksforgeeks.org/check-if-any-point-overlaps-the-given-circle-and-rectangle/
-function interceptCircRect(circ, rect){
-    var rad = circ.width/2;
-    var rx1 = rect.x - rect.width/2;
-    var rx2 = rect.x + rect.width/2;
-    var ry1 = rect.y - rect.height/2;
-    var ry2 = rect.y + rect.height/2;
+function interceptCircRect(circ, circdia, rect, rectw, recth){
+    var rad = circdia/2;
+    var rx1 = rect.x - rectw/2;
+    var rx2 = rect.x + rectw/2;
+    var ry1 = rect.y - recth/2;
+    var ry2 = rect.y + recth/2;
 
     var Xn = max(rx1, min(circ.x, rx2));
     var Yn = max(ry1, min(circ.y, ry2));
@@ -145,6 +145,7 @@ function interceptLineCirc(l1,l2,cent, rad){
     return false;
 }
 
+//random x-y position on a perimeter
 function randomRectPerimiterPos(sizex, sizey){
     var randperim = random(2*sizex + 2*sizey);
     var xpos = 0;
@@ -195,4 +196,9 @@ function closestAngle(source, target, increment){
     if(source < 0) return source+2*Math.PI;
     if(source > 2*Math.PI) return source - 2*Math.PI;
     return source;
+}
+
+function isOutOfBound(x,y, roomdist, width, height){
+    if(x >= (width+roomdist) || x <= (-roomdist) || y >= (height+roomdist) || y <= (-roomdist)) return true;
+    return false;
 }
