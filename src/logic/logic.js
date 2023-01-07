@@ -14,23 +14,14 @@ let createEnemy = function(){
     target[0] -= SIZEW;
     target[1] -= SIZEH;
     var angle = direction(pos[0], pos[1], target[0]+px/3, target[1]+py/3);
+    var be = structuredClone(basicEnemy);
+    be.move.angle = angle;
+    be.specs.color = colors[1];
+    be.move.speed = int(random(1,6));
+    be.move.x = pos[0];
+    be.move.y = pos[1];
     
-    var basicEnemy = {
-        specs: {
-            width: SIZEW,
-            height: SIZEH,
-            shape: 1,
-            color: colors[1],
-        },
-
-        move: {
-            angle: angle, 
-            speed: int(random(1,6)),
-            x:pos[0],
-            y:pos[1],
-        },
-    };
-    enemies.push(basicEnemy);
+    enemies.push(be);
 }
 
 let incrementEventTime = function(event, n){
@@ -116,7 +107,7 @@ function checkCollisions(){
 //checks for borders in order to not go over the canvas
 function border(){
     if(Player.move.x >= CANVSIZEX - 15) Player.move.x = CANVSIZEX - 15;
-    if(Player.move.x <= 15) Player.x = 15;
+    if(Player.move.x <= 15) Player.move.x = 15;
     if(Player.move.y >= CANVSIZEY - 15) Player.move.y = CANVSIZEY - 15;
     if(Player.move.y <= 15) Player.move.y = 15;
 }

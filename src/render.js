@@ -27,6 +27,7 @@ function draw(){
     background(bcolor[0], bcolor[1], bcolor[2]);
     keyboard();
     border();
+    console.log(Player.move.x);
     renderPlayer();
     renderRays();
     renderEnemies();

@@ -186,6 +186,10 @@ function randomRectPerimiterPos(sizex, sizey){
     return [xpos,ypos];
 }
 
+function interceptLines(l1, l2, l3, l4){
+    
+}
+
 function closestAngle(source, target, increment){
     if(abs((source+2*Math.PI) -(target+2*Math.PI)) <= increment) return target;
     var sh = source + Math.PI;
