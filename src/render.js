@@ -36,13 +36,6 @@ function draw(){
     checkOver();
 }
 
-
-/*//changes canvas on window resize
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-}*/
-
-
 function renderPlayer(){
     
     //just render the shape with internal tools
